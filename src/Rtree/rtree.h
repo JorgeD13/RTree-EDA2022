@@ -1,13 +1,13 @@
 #ifndef RTREE_H
 #define RTREE_H
 
-#include "Point.h"
+#include "../Point.h"
 
 class rtree{
 
 public:
     rtree();
-    explicit rtree();
+    // explicit rtree(int// );
 
 };
 

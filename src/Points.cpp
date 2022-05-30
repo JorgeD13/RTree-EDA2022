@@ -1,43 +1,16 @@
-#include "Particles.h"
+#include "Points.h"
 
-Particles::Particles() = default;
+Points::Points() = default;
 
 // Euclidean Distance
-Double calculate_distance(Particle &a, Particle &b) {
+Double calculate_distance(Point &a, Point &b) {
     return sqrt(
         pow((a.get_x()-b.get_x()),2) +
         pow((a.get_y()-b.get_y()), 2)
         );
 }
 
-Double impulse_fx(Particle &a, Particle &b){
-
-    Double dx = b.get_x() - a.get_x();
-    Double dy = b.get_y() - a.get_y();
-    Double dvx = b.get_vx() - a.get_vx();
-    Double dvy = b.get_vy() - a.get_vy();
-    Double dv_dr = dx*dvx + dy*dvy;
-    Double distance = (calculate_distance(a, b));
-
-    Double magnitude = 2 * a.get_mass() * b.get_mass() * dv_dr / (distance * (a.get_mass() + b.get_mass()));
-
-    return magnitude * dx / distance;
-}
-
-Double impulse_fy(Particle &a, Particle &b){
-    Double dx = b.get_x() - a.get_x();
-    Double dy = b.get_y() - a.get_y();
-    Double dvx = b.get_vx() - a.get_vx();
-    Double dvy = b.get_vy() - a.get_vy();
-    Double dv_dr = dx*dvx + dy*dvy;
-    Double distance = (calculate_distance(a, b));
-
-    Double magnitude = 2 * a.get_mass() * b.get_mass() * dv_dr / (distance * (a.get_mass() + b.get_mass()));
-
-    return magnitude * dy / distance;
-}
-
-Particles::Particles(int number): number_of_particles(number){
+Points::Points(int number): number_of_points(number) {
     // 1 PARTICULA
     /*for(int i = 0; i < number_of_particles; i++)
         particles.emplace_back(0,0,1,1,30,0.5);*/
@@ -74,8 +47,8 @@ Particles::Particles(int number): number_of_particles(number){
 
 
 //DIBUJO DE CADA PARTICULA
-void Particles::draw(sf::RenderWindow* window) {
-    for (auto &p : particles){
+void Points::draw(sf::RenderWindow* window) {
+    for (auto &p : points){
         sf::CircleShape shape(2);
         shape.setFillColor(sf::Color::Red);
         shape.setPosition(p.get_x(), p.get_y());
@@ -83,52 +56,6 @@ void Particles::draw(sf::RenderWindow* window) {
     }
 }
 
-void Particles::move(){
-
-    // COMPARACION DE COLISION ENTRE PARTICULAS
-    for(int i = 0; i < particles.size(); i ++) {
-        for (int j = 0; j < particles.size(); j++) {
-            if (i != j) {
-                if (ceil((calculate_distance(particles[i], particles[j]))) <= 2 * particles[i].get_radius()) {
-
-                    if (particles[i].get_last_collision() != j || particles[i].get_last_collision() == -1) {
-
-                        Double fx = impulse_fx(particles[i], particles[j]);
-                        Double fy = impulse_fy(particles[i], particles[j]);
-
-                        particles[i].set_vx(particles[i].get_vx() + fx / particles[i].get_mass());
-                        particles[i].set_vy(particles[i].get_vy() + fy / particles[i].get_mass());
-                        particles[j].set_vx(particles[j].get_vx() - fx / particles[j].get_mass());
-                        particles[j].set_vy(particles[j].get_vy() - fy / particles[j].get_mass());
-
-                        particles[i].set_last_collision(j);
-                        particles[j].set_last_collision(i);
-                    }
-                }
-            }
-        }
-
-    // COLISION CON PAREDES
-    if (particles[i].get_x() + particles[i].get_vx() <= 0 ||
-        particles[i].get_x() + particles[i].get_vx() >= 1000 - 2*particles[i].get_radius())
-    {
-        particles[i].set_vx(-particles[i].get_vx());
-        particles[i].set_last_collision(-1);
-    }
-
-    if (particles[i].get_y() + particles[i].get_vy() <= 0 ||
-        particles[i].get_y() + particles[i].get_vy() >= 700 - 2*particles[i].get_radius())
-    {
-        particles[i].set_vy(-particles[i].get_vy());
-        particles[i].set_last_collision(-1);
-    }
-
-    //MOVIMIENTO DE PARTICULAS
-    particles[i].set_x(particles[i].get_x() + particles[i].get_vx());
-    particles[i].set_y(particles[i].get_y() + particles[i].get_vy());
-    }
-}
-
-vector<Particle> Particles::get_particles() {
-    return particles;
+vector<Point> Points::get_points() {
+    return points;
 }

@@ -1,8 +1,10 @@
-    #include "Collision_System.h"
-#include "quadtree.h"
+#include "System.h"
+#include "Rtree/rtree.h"
 
-system::system(sf::RenderWindow* wnd, int num): window(wnd){
-    Particles particles;
+System::System() = default;
+
+System::System(sf::RenderWindow* wnd) : window(wnd) {
+    Points points;
     auto wndsize = window->getSize();
     
     // QuadTree qt(0, wndsize.x, 0, wndsize.y);
@@ -17,11 +19,16 @@ system::system(sf::RenderWindow* wnd, int num): window(wnd){
                 window->close();
 
             // evento de click
-
+            // evento de click
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            {
+                sf::Vector2i position = sf::Mouse::getPosition();
+                Point p(position.x, position.y);
+            }
             
         }
         //window->clear();
-        particles.draw(window);
+        points.draw(window);
         window->display();
     }
 }

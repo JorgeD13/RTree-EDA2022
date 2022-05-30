@@ -1,13 +1,14 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-#include "Particles.h"
+#include "Points.h"
 
-class system {
+class System {
 private:
     sf::RenderWindow* window{};
 public:
-    system(sf::RenderWindow* wnd);
+    System();
+    explicit System(sf::RenderWindow* wnd);
 };
 
 #endif
