@@ -12,7 +12,7 @@ public:
     explicit Points(int quantity);
 
     void draw(sf::RenderWindow* window);
-    void move();
+    void add(Point p);
     vector<Point> get_points();
 
 };

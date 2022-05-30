@@ -1,7 +1,6 @@
-#include "libs.h"
 #include "System.h"
 
-#define width 900
+#define width 1000
 #define height 500
 
 int main() {

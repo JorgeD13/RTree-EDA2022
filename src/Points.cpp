@@ -45,6 +45,9 @@ Points::Points(int number): number_of_points(number) {
     */
 }
 
+void Points::add(Point p) {
+    points.push_back(p);
+}
 
 //DIBUJO DE CADA PARTICULA
 void Points::draw(sf::RenderWindow* window) {
