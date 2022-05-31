@@ -28,22 +28,46 @@ def draw_polygon_start(event):
    else:
       canvas.start_coords = x, y
    canvas.old_coords = x, y
+   canvas.points.append((x, y))
 
 def draw_polygon_end(event):
-   draw_polygon_start(event)
-   x1, y1 = canvas.start_coords
-   x2, y2 = canvas.old_coords
-   canvas.create_line(x1, y1, x2, y2)
-   canvas.old_coords = None
-   canvas.start_coords = None
+   if len(canvas.points) > 1:
+      draw_polygon_start(event)
+      x1, y1 = canvas.start_coords
+      x2, y2 = canvas.old_coords
+      canvas.create_line(x1, y1, x2, y2)
+      canvas.old_coords = None
+      canvas.start_coords = None
+      draw_bounding_box()
+
+def draw_bounding_box():
+   min_x = 100000
+   min_y = 100000
+   max_x = -100000
+   max_y = -100000
+
+   for item in canvas.points:
+      if item[0] < min_x:
+         min_x = item[0]
+      if item[0] > max_x:
+         max_x = item[0]
+      if item[1] < min_y:
+         min_y = item[1]
+      if item[1] > max_y:
+         max_y = item[1]
+
+   canvas.create_rectangle(min_x, max_y, max_x, min_y, outline="#ff0000")
+   canvas.points = []
 
 # Create a canvas widget
 canvas=Canvas(win, width=900, height=600, background="white")
 canvas.grid(row=0, column=0)
 canvas.pack()
 
+# polygon variables
 canvas.start_coords = None
 canvas.old_coords = None
+canvas.points = []
 
 canvas.focus_set()
 canvas.bind('<Button-1>', draw_line)
