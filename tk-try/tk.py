@@ -1,5 +1,6 @@
 # Import the required libraries
 from tkinter import *
+from math import inf
 
 # Create an instance of tkinter frame or window
 win=Tk()
@@ -41,10 +42,10 @@ def draw_polygon_end(event):
       draw_bounding_box()
 
 def draw_bounding_box():
-   min_x = 100000
-   min_y = 100000
-   max_x = -100000
-   max_y = -100000
+   min_x = inf
+   min_y = inf
+   max_x = -inf
+   max_y = -inf
 
    for item in canvas.points:
       if item[0] < min_x:
